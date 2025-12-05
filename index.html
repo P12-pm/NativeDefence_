@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeDefence - NativeSOC</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff; /* Cyan Cyber Color */
+            --secondary-color: #2d46b9;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+        }
+        
+        .navbar-brand-text {
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: #b0b0b0 !important;
+            font-weight: 500;
+            margin-left: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Hero Section with Wavy Lines Background */
+        .hero-section {
+            position: relative;
+            padding: 120px 0 80px;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #162038 100%);
+            overflow: hidden;
+        }
+
+        /* Abstract Wavy Lines CSS decoration */
+        .wavy-lines {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='40' height='40' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 40 0 L 0 0 0 40' fill='none' stroke='rgba(0, 229, 255, 0.05)' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23smallGrid)' /%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #fff, var(--primary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero-btn {
+            background-color: var(--primary-color);
+            color: #000;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            border: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+            color: #000;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 60px 0;
+            background-color: var(--card-bg);
+            border-top: 1px solid #1f2937;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .stat-card p {
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Testimonials */
+        .testimonial-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .testimonial-box {
+            background: #162038;
+            padding: 40px;
+            border-radius: 15px;
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #2d3748;
+        }
+
+        .testimonial-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: #d1d5db;
+        }
+
+        .author-name {
+            margin-top: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .author-role {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #05080f;
+            padding: 60px 0 20px;
+            font-size: 0.9rem;
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .contact-item {
+            display: flex;
+            margin-bottom: 15px;
+            color: #9ca3af;
+        }
+
+        .contact-item i {
+            margin-right: 15px;
+            margin-top: 5px;
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            border-top: 1px solid #1f2937;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* Animation classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .stat-card { margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <!-- Placeholder for Logo if image missing, otherwise shows text styled nicely -->
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center">
+        <div class="wavy-lines"></div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-8 fade-up">
+                    <h1 class="hero-title">Defense is the Best Offence in Cyber Security</h1>
+                    <p class="lead mb-4 text-light" style="max-width: 700px;">
+                        NATIVESOC, a technology from NativeDefence, helps you stay ahead of the threat, detect early, manage better, and ultimately defend yourself better. NATIVESOC helps you develop Cyber Resiliency like never before.
+                    </p>
+                    <p class="h5 mb-4 text-info">Stay ahead of the threat, Stay ahead in the Fight.</p>
+                    <a href="vapt.html"><button class="btn hero-btn">Click To View Threat Intel</button></a>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block fade-up">
+                    <!-- Abstract Visual representation since no specific image provided -->
+                    <div style="width: 100%; height: 300px; background: radial-gradient(circle, rgba(0,229,255,0.1) 0%, rgba(10,15,28,0) 70%); border: 1px solid var(--primary-color); border-radius: 50%; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 50px rgba(0,229,255,0.2);">
+                        <i class="fas fa-shield-alt" style="font-size: 8rem; color: var(--primary-color);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 stat-card fade-up">
+                    <h3 class="counter" data-target="3500">0</h3>
+                    <p>Engagements</p>
+                </div>
+                <div class="col-md-4 stat-card fade-up">
+                    <h3 class="counter" data-target="22000000">0</h3>
+                    <p>Monitored Globally</p>
+                </div>
+                <div class="col-md-4 stat-card fade-up">
+                    <h3 class="counter" data-target="22000">0</h3>
+                    <p>Network Sensors</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About/Testimonials Section -->
+    <section class="testimonial-section" id="about">
+        <div class="container">
+            <div class="row mb-5 text-center fade-up">
+                <div class="col-lg-8 mx-auto">
+                    <h6 class="text-primary text-uppercase">Testimonials</h6>
+                    <h2>Trusted by Experts</h2>
+                </div>
+            </div>
+
+            <div class="testimonial-box fade-up">
+                <i class="fas fa-quote-left testimonial-icon"></i>
+                <p class="testimonial-text">
+                    “Cybersecurity is core to Mobileware Technologies. Using NativeDefence Tech LLP’s SOC services, we proactively monitor threats, reinforcing our commitment to top-tier security and compliance, so our customers experience reliable, secure solutions across the digital payments landscape.”
+                </p>
+                <div class="author-name">Mr. Carlin Crasto (CTO)</div>
+                <div class="author-role">Mobileware Technologies Pvt. Ltd.</div>
+            </div>
+
+            <div class="row mt-5 pt-5 fade-up">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h4 class="mb-3">About NativeSOC</h4>
+                    <p class="text-muted">
+                        NativeSOC is an expert-driven Cyber Security Services company, with its Technical and SOC operations based out of Ahmedabad and Sales and Marketing driving from Mumbai. NativeSOC Team works with End-Customers, Resellers, SI's, and OEM's potentially due to its vast experience in the domain.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: Branding -->
+                <div class="col-lg-4 mb-4">
+                    <a class="d-flex align-items-center mb-3 text-decoration-none" href="#">
+                         <img src="NATIVEDEFENCE_Logo1.png" alt="Logo" style="height: 40px; margin-right:10px;" onerror="this.style.display='none'">
+                         <span style="font-weight:700; font-size:1.2rem; color:white;">NATIVEDEFENCE</span>
+                    </a>
+                    <p class="text-muted">Protecting your digital assets with advanced threat detection and resiliency strategies.</p>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="col-lg-3 mb-4">
+                    <h5>Navigation</h5>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">NativeSOC</a></li>
+                        <li><a href="#">Academy</a></li>
+                        <li><a href="#">VAPT</a></li>
+                        <li><a href="#">About us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact -->
+                <div class="col-lg-5">
+                    <h5>Contact Info</h5>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <a href="mailto:sales@nativedefence.com">sales@nativedefence.com</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd, Near BSNL Office,<br>
+                            Off S G Highway, Jagatpur, Ahmedabad, Gujarat 382470
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>KOLKATA</strong><br>
+                            8 BECK BAGAN ROW KOLKATA - 700017
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS for Animations -->
+    <script>
+        // Intersection Observer for Fade Up Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // If counting numbers are visible, start counting
+                    if(entry.target.querySelector('.counter')) {
+                        const counters = entry.target.parentElement.querySelectorAll('.counter');
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const duration = 2000; // ms
+                            const increment = target / (duration / 16); 
+                            
+                            let current = 0;
+                            const updateCounter = () => {
+                                current += increment;
+                                if (current < target) {
+                                    // Format numbers (e.g. 3.5K, 22M)
+                                    if(target > 1000000) {
+                                        counter.innerText = Math.ceil(current / 1000000) + ' M+';
+                                    } else if (target > 1000) {
+                                        counter.innerText = Math.ceil(current / 1000) + ' K+';
+                                        // Fine tune for 3.5k specific logic if strictly needed, else generic K+
+                                        if(target === 3500) counter.innerText = (current/1000).toFixed(1) + ' K';
+                                    } else {
+                                        counter.innerText = Math.ceil(current);
+                                    }
+                                    requestAnimationFrame(updateCounter);
+                                } else {
+                                    // Final setting
+                                    if(target === 22000000) counter.innerText = "22 M+";
+                                    else if(target === 22000) counter.innerText = "22 K+";
+                                    else if(target === 3500) counter.innerText = "3.5 K";
+                                    else counter.innerText = target;
+                                }
+                            };
+                            updateCounter();
+                        });
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
