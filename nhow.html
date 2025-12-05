@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeSOC - How It Works</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #6272ba;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #ffffff;
+            --accent-glow: rgba(76, 182, 193, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+            z-index: 1030;
+        }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 1.2rem; letter-spacing: 1px; }
+        .nav-link { color: #fffafa !important; font-weight: 500; margin-left: 15px; transition: 0.3s; font-size: 0.9rem;}
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- Page Header --- */
+        .page-header {
+            background: linear-gradient(to bottom, rgba(10, 15, 28, 0.85), var(--dark-bg)), 
+                        url('https://images.unsplash.com/photo-1558494949-ef52097d8426?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 160px 0 80px;
+            border-bottom: 1px solid #1f2937;
+        }
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .breadcrumb-custom a { color: var(--primary-color); text-decoration: none; }
+        .breadcrumb-custom span { color: #ffffff; margin: 0 10px; }
+
+        /* --- Section Common --- */
+        section { padding: 80px 0; border-bottom: 1px solid #1f2937; }
+        .section-title { font-size: 2.5rem; font-weight: 700; color: white; margin-bottom: 1rem; }
+        .section-subtitle { color: var(--primary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+
+        /* --- Pipeline Visualizer --- */
+        .pipeline-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 50px 0;
+            background: rgba(255,255,255,0.02);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px dashed #374151;
+        }
+        .pipeline-step {
+            text-align: center;
+            position: relative;
+            flex: 1;
+            min-width: 120px;
+        }
+        .pipeline-icon {
+            width: 70px; height: 70px;
+            background: var(--card-bg);
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        .pipeline-step:hover .pipeline-icon {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.1);
+        }
+        .pipeline-arrow {
+            flex: 0 0 50px;
+            color: #374151;
+            font-size: 1.5rem;
+            display: flex; justify-content: center;
+        }
+
+        /* --- Detailed Workflow (ZigZag) --- */
+        .workflow-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        .workflow-content { padding: 20px; }
+        .workflow-visual {
+            background: var(--card-bg);
+            border: 1px solid #6d7a91;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+        }
+        .workflow-visual::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: -10px; bottom: -10px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .step-badge {
+            display: inline-block;
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid rgba(231, 242, 243, 0.3);
+        }
+
+        /* --- Footer --- */
+        footer { background-color: #05080f; padding: 60px 0 20px; border-top: 3px solid var(--secondary-color); }
+        footer a { color: #f4f5f7; text-decoration: none; transition: 0.3s; }
+        footer a:hover { color: var(--primary-color); }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .workflow-row { flex-direction: column-reverse; text-align: center; }
+            .workflow-row:nth-child(even) { flex-direction: column-reverse; }
+            .workflow-visual { margin-bottom: 30px; }
+            .pipeline-arrow { transform: rotate(90deg); margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Global Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container text-center">
+            <div class="breadcrumb-custom mb-3 d-flex justify-content-center">
+                <a href="nativesoc.html"><i class="fas fa-arrow-left me-2"></i>Back to Platform</a>
+                <span>/</span>
+                <span class="text-light">Workflow</span>
+            </div>
+            <h1 class="page-title">How NativeSOC Works</h1>
+            <p class="lead text-light mx-auto" style="max-width: 700px;">
+                From raw data to remediated threat. A transparent look at our detection and response lifecycle.
+            </p>
+        </div>
+    </header>
+
+    <!-- 1. The Data Pipeline Visualizer -->
+    <section id="pipeline">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-subtitle">01. High Level View</span>
+                <h2 class="section-title">The Data Pipeline</h2>
+            </div>
+            
+            <div class="pipeline-container">
+                <!-- Step 1 -->
+                <div class="pipeline-step">
+                    <div class="pipeline-icon"><i class="fas fa-server"></i></div>
+                    <h6 class="text-white">Source</h6>
+                    <small class="text-muted">Agents & APIs</small>
+                </div>
+                <div class="pipeline-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- Step 2 -->
+                <div class="pipeline-step">
+                    <div class="pipeline-icon"><i class="fas fa-filter"></i></div>
+                    <h6 class="text-white">Decoder</h6>
+                    <small class="text-muted">Normalize & Parse</small>
+                </div>
+                <div class="pipeline-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- Step 3 -->
+                <div class="pipeline-step">
+                    <div class="pipeline-icon"><i class="fas fa-microchip"></i></div>
+                    <h6 class="text-white">Engine</h6>
+                    <small class="text-muted">Correlation Rules</small>
+                </div>
+                <div class="pipeline-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- Step 4 -->
+                <div class="pipeline-step">
+                    <div class="pipeline-icon"><i class="fas fa-bell"></i></div>
+                    <h6 class="text-white">Alert</h6>
+                    <small class="text-muted">Ticket Created</small>
+                </div>
+                <div class="pipeline-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- Step 5 -->
+                <div class="pipeline-step">
+                    <div class="pipeline-icon"><i class="fas fa-user-shield"></i></div>
+                    <h6 class="text-white">Response</h6>
+                    <small class="text-muted">SOC Analyst / SOAR</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Detailed Workflow Steps -->
+    <section id="details" style="background-color: #0d121f;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-subtitle">02. Step-by-Step</span>
+                <h2 class="section-title">Deep Dive Process</h2>
+            </div>
+
+            <!-- Row 1: Ingestion -->
+            <div class="row workflow-row">
+                <div class="col-lg-6 order-2 order-lg-1 workflow-content">
+                    <span class="step-badge">STEP 1</span>
+                    <h3 class="text-white mb-3">Ingestion & Collection</h3>
+                    <p class="text-muted">
+                        Security begins with visibility. We deploy lightweight agents to your endpoints (Windows, Linux, Mac) and connect via API to your cloud services (AWS, Azure, O365).
+                    </p>
+                    <ul class="list-unstyled text-light mt-3">
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Log Collection:</strong> Syslogs, Event Logs, Firewall Logs.</li>
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>File Monitoring:</strong> Hashing critical files for FIM.</li>
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Inventory:</strong> Scanning installed apps and open ports.</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <div class="workflow-visual">
+                        <i class="fas fa-satellite-dish fa-5x text-secondary"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Analysis (Reverse Order) -->
+            <div class="row workflow-row">
+                <div class="col-lg-6 order-1">
+                    <div class="workflow-visual">
+                        <i class="fas fa-brain fa-5x text-primary"></i>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-2 workflow-content">
+                    <span class="step-badge">STEP 2</span>
+                    <h3 class="text-white mb-3">Analysis & Correlation</h3>
+                    <p class="text-muted">
+                        Raw data is noisy. Our engine normalizes logs into a standard JSON format. It then applies Threat Intelligence enrichment (GeoIP, Reputation Check) and runs them against 50,000+ detection rules.
+                    </p>
+                    <ul class="list-unstyled text-light mt-3">
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>MITRE ATT&CK:</strong> All events mapped to tactics & techniques.</li>
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Machine Learning:</strong> Detecting anomalies in user behavior.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Row 3: Alerting -->
+            <div class="row workflow-row">
+                <div class="col-lg-6 order-2 order-lg-1 workflow-content">
+                    <span class="step-badge">STEP 3</span>
+                    <h3 class="text-white mb-3">Triaging & Alerting</h3>
+                    <p class="text-muted">
+                        When a rule triggers, an alert is generated. To prevent "Alert Fatigue," our system groups related events into a single Incident. It assigns a severity score (Low to Critical).
+                    </p>
+                    <ul class="list-unstyled text-light mt-3">
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Smart Filtering:</strong> Eliminating false positives automatically.</li>
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Real-time Notification:</strong> Alerts sent via Email, Slack, or Teams.</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <div class="workflow-visual">
+                        <i class="fas fa-exclamation-triangle fa-5x text-warning"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4: Response (Reverse Order) -->
+            <div class="row workflow-row mb-0">
+                <div class="col-lg-6 order-1">
+                    <div class="workflow-visual">
+                        <i class="fas fa-fire-extinguisher fa-5x text-danger"></i>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-2 workflow-content">
+                    <span class="step-badge">STEP 4</span>
+                    <h3 class="text-white mb-3">Response & Remediation</h3>
+                    <p class="text-muted">
+                        Action is taken. Simple threats are blocked automatically by Active Response (e.g., blocking an IP on the firewall). Complex threats are escalated to our Human SOC team for investigation.
+                    </p>
+                    <ul class="list-unstyled text-light mt-3">
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Active Response:</strong> Block IPs, Kill Processes, Isolate Host.</li>
+                        <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> <strong>Human Expertise:</strong> Detailed forensic report and guidance.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CTA -->
+    <section id="cta">
+        <div class="container text-center">
+            <h2 class="text-white mb-4">Ready to secure your infrastructure?</h2>
+            <p class="text-muted mb-5">Experience the power of NativeSOC in your own environment.</p>
+            <a href="contact.html" class="btn btn-primary rounded-pill px-5 py-3 fw-bold text-dark">Request POC / Demo</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-white text-uppercase">NativeDefence</h5>
+                    <p class="text-muted small">Expert-driven Cyber Security Services. Technical Ops in Ahmedabad, Sales in Mumbai.</p>
+                    <div class="mt-3 text-white">
+                         <i class="fas fa-envelope me-2 text-primary"></i> sales@nativedefence.com
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-white text-uppercase">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nativesoc.html">NativeSOC Platform</a></li>
+                        <li><a href="vapt.html">Vulnerability Assessment</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4">
+                    <h5 class="text-white text-uppercase">Locations</h5>
+                    <p class="text-muted small"><strong class="text-white">Ahmedabad:</strong> Ganesh Glory 11, Jagatpur Rd.</p>
+                    <p class="text-muted small"><strong class="text-white">Kolkata:</strong> 8 Beck Bagan Row.</p>
+                </div>
+            </div>
+            <div class="copyright small">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

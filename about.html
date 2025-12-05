@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #2d46b9;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+        }
+        .navbar-brand img { height: 50px; }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 1.5rem; letter-spacing: 1px; }
+        .nav-link { color: #b0b0b0 !important; font-weight: 500; margin-left: 15px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- Hero Section --- */
+        .about-hero {
+            background: linear-gradient(rgba(10, 15, 28, 0.9), rgba(10, 15, 28, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 160px 0 100px;
+            text-align: center;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        .section-title {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* --- Content Sections --- */
+        .story-section {
+            padding: 80px 0;
+        }
+
+        .highlight-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* --- Values Cards --- */
+        .value-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #2d3748;
+            transition: 0.3s;
+            height: 100%;
+            text-align: center;
+        }
+
+        .value-card:hover {
+            background: linear-gradient(145deg, var(--card-bg), #1a2438);
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            background: rgba(45, 70, 185, 0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* --- Locations Box --- */
+        .location-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #333;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .location-box i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        /* --- Ecosystem --- */
+        .ecosystem-section {
+            background-color: #0d121f;
+            padding: 60px 0;
+        }
+
+        .client-type {
+            border: 1px solid var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .client-type:hover {
+            background-color: var(--primary-color);
+            color: black;
+        }
+
+        /* --- Footer (Consistent) --- */
+        footer {
+            background-color: #05080f;
+            padding: 60px 0 20px;
+            font-size: 0.9rem;
+            border-top: 3px solid var(--secondary-color);
+        }
+        footer a { color: #9ca3af; text-decoration: none; }
+        footer a:hover { color: var(--primary-color); }
+        .contact-item { display: flex; margin-bottom: 15px; color: #9ca3af; }
+        .contact-item i { margin-right: 15px; color: var(--primary-color); margin-top: 5px;}
+        .copyright { border-top: 1px solid #1f2937; margin-top: 40px; padding-top: 20px; text-align: center; color: #6b7280; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1 class="section-title">Who We Are</h1>
+            <p class="lead text-light" style="max-width: 700px; margin: 0 auto;">
+                Expert-driven Cyber Security Services. Innovating defense mechanisms to build global cyber resiliency.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Story Section -->
+    <section class="story-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4">
+                    <h6 class="text-uppercase text-primary mb-3">Our Story</h6>
+                    <h2 class="text-white mb-4">Experts Driving Security</h2>
+                    <div class="highlight-text">
+                        "NativeSOC is a technology from NativeDefence that helps you stay ahead of the threat, detect early, manage better and ultimately defend yourself better."
+                    </div>
+                    <p class="text-muted">
+                        NativeDefence Tech LLP was founded with a singular mission: to provide expert-driven cybersecurity services that are accessible and effective. We believe that defense is the best offense. By proactively monitoring networks and systems, we empower our clients to operate freely in the digital world.
+                    </p>
+                    <p class="text-muted">
+                        Our team works extensively with End-Customers, Resellers, System Integrators (SIs), and OEMs, leveraging our vast experience in the domain to deliver tailored security solutions.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <!-- Abstract Visual -->
+                    <div class="p-5 rounded" style="background: radial-gradient(circle at center, #1a2438 0%, #0a0f1c 100%); border: 1px solid #333; text-align: center;">
+                        <i class="fas fa-shield-alt" style="font-size: 6rem; color: var(--secondary-color); margin-bottom: 20px;"></i>
+                        <h3 class="text-white">NativeDefence</h3>
+                        <p class="text-muted">EST. 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission/Values -->
+    <section class="py-5" style="background-color: #0d121f;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-eye"></i></div>
+                        <h4 class="text-white">Proactive Vision</h4>
+                        <p class="text-muted">We don't just react to incidents; we anticipate them. Staying ahead of the threat is our core philosophy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-dumbbell"></i></div>
+                        <h4 class="text-white">Cyber Resiliency</h4>
+                        <p class="text-muted">We help organizations withstand attacks and recover quickly, ensuring business continuity.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-users-cog"></i></div>
+                        <h4 class="text-white">Expertise</h4>
+                        <p class="text-muted">Our solutions are driven by human intelligence, supported by advanced AI technology.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Operations & Locations -->
+    <section class="story-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h2 class="text-white mb-4">Our Operations</h2>
+                    <p class="text-muted mb-4">
+                        NativeDefence operates with a strategic split to maximize efficiency and client support. While our technical heart beats in Gujarat, our commercial pulse drives from Mumbai.
+                    </p>
+                    <div class="ecosystem-section p-4 rounded border border-secondary">
+                        <h5 class="text-white mb-3">We Work With:</h5>
+                        <div class="row">
+                            <div class="col-6"><div class="client-type">End-Customers</div></div>
+                            <div class="col-6"><div class="client-type">Resellers</div></div>
+                            <div class="col-6"><div class="client-type">SI's</div></div>
+                            <div class="col-6"><div class="client-type">OEM's</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-6">
+                    <h3 class="text-white mb-4">Operational Hubs</h3>
+                    
+                    <div class="location-box">
+                        <i class="fas fa-server"></i>
+                        <div>
+                            <h5 class="text-white">Ahmedabad (Technical HQ)</h5>
+                            <p class="text-muted small mb-0">
+                                Home to our SOC operations and Technical Team. This is where the monitoring, detection, and analysis happen 24/7.
+                            </p>
+                            <div class="text-primary small mt-2">D-311 Ganesh Glory 11, Jagatpur Rd</div>
+                        </div>
+                    </div>
+
+                    <div class="location-box">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <h5 class="text-white">Mumbai (Sales & Marketing)</h5>
+                            <p class="text-muted small mb-0">
+                                Driving business growth and client relationships. Our sales and marketing strategies are formulated here.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="location-box">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h5 class="text-white">Kolkata</h5>
+                            <p class="text-muted small mb-0">
+                                Regional presence and support office.
+                            </p>
+                            <div class="text-primary small mt-2">8 Beck Bagan Row</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <a class="d-flex align-items-center mb-3 text-decoration-none" href="#">
+                         <img src="NATIVEDEFENCE_Logo1.png" alt="Logo" style="height: 40px; margin-right:10px;" onerror="this.style.display='none'">
+                         <span style="font-weight:700; font-size:1.2rem; color:white;">NATIVEDEFENCE</span>
+                    </a>
+                    <p class="text-muted">Defense is the Best Offence in Cyber Security.</p>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5 class="text-white text-uppercase mb-3">Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nativesoc.html">NativeSOC</a></li>
+                        <li><a href="about.html">About us</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <h5 class="text-white text-uppercase mb-3">Reach Us</h5>
+                    <div class="contact-item"><i class="fas fa-envelope"></i> sales@nativedefence.com</div>
+                    <div class="contact-item"><i class="fas fa-map"></i> Ahmedabad • Mumbai • Kolkata</div>
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

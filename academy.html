@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #2d46b9;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+        }
+        .navbar-brand img { height: 50px; }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 1.5rem; letter-spacing: 1px; }
+        .nav-link { color: #b0b0b0 !important; font-weight: 500; margin-left: 15px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- Hero Section --- */
+        .academy-hero {
+            background: linear-gradient(rgba(10, 15, 28, 0.85), rgba(10, 15, 28, 0.95)), 
+                        url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 140px 0 100px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .academy-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #fff, var(--primary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        /* --- Course Cards --- */
+        .course-card {
+            background-color: var(--card-bg);
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.15);
+        }
+
+        .course-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .course-level {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--primary-color);
+        }
+
+        .course-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-title {
+            font-size: 1.4rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 15px;
+        }
+
+        .btn-course {
+            margin-top: auto;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-course:hover {
+            background: var(--primary-color);
+            color: black;
+        }
+
+        /* --- Features Section --- */
+        .feature-icon-box {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+        
+        .feature-icon-box:hover {
+            border-color: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* --- Footer (Consistent) --- */
+        footer {
+            background-color: #05080f;
+            padding: 60px 0 20px;
+            font-size: 0.9rem;
+            border-top: 3px solid var(--secondary-color);
+            margin-top: 60px;
+        }
+        footer a { color: #9ca3af; text-decoration: none; }
+        footer a:hover { color: var(--primary-color); }
+        .contact-item { display: flex; margin-bottom: 15px; color: #9ca3af; }
+        .contact-item i { margin-right: 15px; color: var(--primary-color); margin-top: 5px;}
+        .copyright { border-top: 1px solid #1f2937; margin-top: 40px; padding-top: 20px; text-align: center; color: #6b7280; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="academy-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="academy-title">NativeDefence Academy</h1>
+                    <p class="lead text-light mb-4">
+                        Forging the next generation of Cyber Warriors. <br>
+                        Practical, hands-on training from industry experts to close the global skills gap.
+                    </p>
+                    <a href="#courses" class="btn btn-outline-info rounded-pill px-4 py-2">View Courses</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us / Methodology -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-laptop-code feature-icon"></i>
+                        <h4 class="text-white">Hands-on Labs</h4>
+                        <p class="text-muted">Theory is good, practice is better. Access our live cyber range to practice attacks and defense in real-time.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                        <h4 class="text-white">Expert Mentors</h4>
+                        <p class="text-muted">Learn from professionals who work in our SOC and VAPT teams daily. Real-world scenarios, not just textbooks.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-award feature-icon"></i>
+                        <h4 class="text-white">Certification</h4>
+                        <p class="text-muted">Earn industry-recognized certificates upon completion to boost your resume and career prospects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Catalog -->
+    <section id="courses" class="py-5" style="background-color: #0d121f;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h6 class="text-primary text-uppercase">Curriculum</h6>
+                <h2 class="text-white">Featured Courses</h2>
+            </div>
+
+            <div class="row g-4">
+                
+                <!-- Course 1 -->
+                <div class="col-md-4">
+                    <div class="course-card">
+                        <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=600&q=80');">
+                            <span class="course-level">Beginner</span>
+                        </div>
+                        <div class="course-body">
+                            <h3 class="course-title">Certified SOC Analyst</h3>
+                            <div class="course-meta">
+                                <span><i class="far fa-clock me-1"></i> 6 Weeks</span>
+                                <span><i class="fas fa-video me-1"></i> Live + Rec</span>
+                            </div>
+                            <p class="text-muted small">
+                                Master the fundamentals of Security Operations. Learn SIEM management, log analysis, and incident response procedures.
+                            </p>
+                            <button class="btn btn-course">Download Syllabus</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="col-md-4">
+                    <div class="course-card">
+                        <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80');">
+                            <span class="course-level">Intermediate</span>
+                        </div>
+                        <div class="course-body">
+                            <h3 class="course-title">Ethical Hacking & VAPT</h3>
+                            <div class="course-meta">
+                                <span><i class="far fa-clock me-1"></i> 8 Weeks</span>
+                                <span><i class="fas fa-laptop me-1"></i> 80% Labs</span>
+                            </div>
+                            <p class="text-muted small">
+                                Learn how to think like an attacker. Covers Network Penetration Testing, Web App Security, and Vulnerability Assessment.
+                            </p>
+                            <button class="btn btn-course">Download Syllabus</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="col-md-4">
+                    <div class="course-card">
+                        <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80');">
+                            <span class="course-level">Advanced</span>
+                        </div>
+                        <div class="course-body">
+                            <h3 class="course-title">Threat Hunting Professional</h3>
+                            <div class="course-meta">
+                                <span><i class="far fa-clock me-1"></i> 4 Weeks</span>
+                                <span><i class="fas fa-brain me-1"></i> Logic Based</span>
+                            </div>
+                            <p class="text-muted small">
+                                Go beyond automated tools. Learn to proactively hunt for adversaries in your network using advanced forensics and analytics.
+                            </p>
+                            <a href="cource.html">
+                            <button class="btn btn-course">course</button></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 text-center">
+        <div class="container">
+            <div class="p-5 rounded" style="background: linear-gradient(45deg, var(--secondary-color), #162038);">
+                <h2 class="text-white mb-3">Not sure where to start?</h2>
+                <p class="text-light mb-4">Talk to our career counselors to find the right path for you in Cyber Security.</p>
+                <a href="mailto:academy@nativedefence.com" class="btn btn-light rounded-pill px-5 fw-bold">Contact Academy Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <a class="d-flex align-items-center mb-3 text-decoration-none" href="#">
+                         <img src="NATIVEDEFENCE_Logo1.png" alt="Logo" style="height: 40px; margin-right:10px;" onerror="this.style.display='none'">
+                         <span style="font-weight:700; font-size:1.2rem; color:white;">NATIVEDEFENCE</span>
+                    </a>
+                    <p class="text-muted">Empowering the world through secure digital ecosystems and education.</p>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5 class="text-white text-uppercase mb-3">Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                        <li><a href="#">VAPT</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <h5 class="text-white text-uppercase mb-3">Contact Academy</h5>
+                    <div class="contact-item"><i class="fas fa-envelope"></i> academy@nativedefence.com</div>
+                    <div class="contact-item"><i class="fas fa-phone"></i> +91 98765 43210</div>
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

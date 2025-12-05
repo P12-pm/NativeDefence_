@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPT - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #2d46b9;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #e0e0e0;
+            --accent-red: #ff2e63;
+            --accent-orange: #ff9f43;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+        }
+        .navbar-brand img { height: 50px; }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 1.5rem; letter-spacing: 1px; }
+        .nav-link { color: #b0b0b0 !important; font-weight: 500; margin-left: 15px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- Hero Section --- */
+        .vapt-hero {
+            background: linear-gradient(rgba(10, 15, 28, 0.9), rgba(10, 15, 28, 0.95)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 160px 0 100px;
+            position: relative;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        /* --- Intro Section --- */
+        .intro-section {
+            padding: 80px 0;
+            background: var(--dark-bg);
+        }
+
+        /* --- Service Definitions --- */
+        .def-card {
+            background: rgba(45, 70, 185, 0.1);
+            border: 1px solid var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            height: 100%;
+            transition: 0.3s;
+        }
+        .def-card:hover {
+            background: rgba(45, 70, 185, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        /* --- Methodology Timeline (List Style) --- */
+        .method-list-item {
+            background: var(--card-bg);
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            transition: 0.3s;
+        }
+        .method-list-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+        .step-badge {
+            background: var(--primary-color);
+            color: black;
+            font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: inline-block;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* --- Industries --- */
+        .industry-card {
+            text-align: center;
+            padding: 30px;
+            background: #162038;
+            border-radius: 10px;
+            border: 1px solid #2d3748;
+            height: 100%;
+        }
+        .industry-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* --- Threat Intel Accordion --- */
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid #2d3748;
+            margin-bottom: 10px;
+        }
+        .accordion-button {
+            background-color: #1a2438;
+            color: white;
+            font-weight: 600;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(0, 229, 255, 0.1);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+        .accordion-button::after {
+            filter: invert(1);
+        }
+        .accordion-body {
+            color: #ccc;
+            background-color: #111827;
+        }
+        
+        .badge-critical { background-color: var(--accent-red); color: white; }
+        .badge-high { background-color: var(--accent-orange); color: black; }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #05080f;
+            padding: 60px 0 20px;
+            font-size: 0.9rem;
+            border-top: 3px solid var(--secondary-color);
+        }
+        footer a { color: #9ca3af; text-decoration: none; }
+        footer a:hover { color: var(--primary-color); }
+        .contact-item { display: flex; margin-bottom: 15px; color: #9ca3af; }
+        .contact-item i { margin-right: 15px; color: var(--primary-color); margin-top: 5px;}
+        .copyright { border-top: 1px solid #1f2937; margin-top: 40px; padding-top: 20px; text-align: center; color: #6b7280; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="vapt-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <h1 class="display-4 fw-bold text-white mb-3">Fortify Your Digital Defenses with NATIVEDEFENCE's VAPT Services</h1>
+                    <h4 class="text-info mb-4">Elevate Your Cybersecurity Today!</h4>
+                    <p class="lead text-light mb-4">
+                        At NativeDefence, we serve as your unwavering partner in strengthening your digital security. With a well-established history of excellence in Vulnerability Assessment and Penetration Testing (VAPT), we are wholeheartedly dedicated to fortifying your organization's defenses.
+                    </p>
+                    <a href="#threat-intel" class="btn btn-outline-light rounded-pill px-4 py-2">View Threat Intel</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro & Partner Logo -->
+    <section class="intro-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h2 class="text-white mb-4">Safeguard Your Invaluable Assets</h2>
+                    <p class="text-muted">
+                        Discover the depth of NativeDefence's proficiency. We identify gaps before attackers do, ensuring business continuity and trust.
+                    </p>
+                    <div class="row mt-4 g-4">
+                        <div class="col-md-6">
+                            <div class="def-card">
+                                <h4 class="text-white"><i class="fas fa-search me-2"></i> Vulnerability Assessment</h4>
+                                <p class="text-muted small mb-0">
+                                    Uncover vulnerabilities in your digital infrastructure proactively, beating potential attackers at their own game. Our comprehensive Assessment meticulously identifies weaknesses, empowering you to address and prioritize remediation effectively.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="def-card">
+                                <h4 class="text-white"><i class="fas fa-user-secret me-2"></i> Penetration Testing</h4>
+                                <p class="text-muted small mb-0">
+                                    Our team of ethical hackers specializes in emulating real-world cyberattacks, rigorously testing the resilience of your systems. We reveal vulnerabilities that automated scans might overlook, guaranteeing the fortification of your defenses.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center">
+                    <!-- Partner Logo / Illustration -->
+                    <div class="p-4" style="background: rgba(255,255,255,0.05); border-radius: 20px;">
+                        <img src="https://static.wixstatic.com/media/b12bd8_e4cdbf27caa9464bb56dbf3708023557~mv2.png/v1/fill/w_997,h_995,al_c,q_90,enc_avif,quality_auto/Scope%20Information%20Gathering%20Vulnerabilit.png" alt="Partner Logo" class="img-fluid" style="max-height: 250px;" onerror="this.src='https://via.placeholder.com/400x250?text=Partner+Logo'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology / Goals & Objectives -->
+    <section class="py-5" style="background-color: #0d121f;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h6 class="text-primary text-uppercase">Our Process</h6>
+                <h2 class="text-white">Goals & Objectives</h2>
+                <p class="text-muted">
+                    Goal: To identify and mitigate security vulnerabilities.<br>
+                    Objective: To improve overall security posture, reduce risks, and prevent potential breaches.
+                </p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    
+                    <!-- Step 1 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">01. Scope</span>
+                        <h4 class="text-white">Define Boundaries</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Define the boundaries and limitations of the VAPT assessment.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> Clearly outline what systems, applications, and networks will be tested, along with the specific goals and constraints.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">02. Information Gathering</span>
+                        <h4 class="text-white">Reconnaissance</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Collect essential information about the target environment.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> To understand the target's architecture, potential attack surface, and initial reconnaissance of assets.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">03. Vulnerability Detection</span>
+                        <h4 class="text-white">Identification</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Identify security weaknesses, misconfigurations, and vulnerabilities.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> Use automated scanning tools and manual testing to discover common and unique security issues.</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">04. Analysis & Planning</span>
+                        <h4 class="text-white">Evaluation</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Analyze the gathered information and plan the penetration testing.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> To evaluate the potential risks and prioritize testing efforts.</p>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">05. Privilege Escalation</span>
+                        <h4 class="text-white">Deep Access</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Attempt to escalate privileges and gain deeper access to systems.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> To explore the extent of potential breaches and assess the level of risk.</p>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">06. Result Analysis</span>
+                        <h4 class="text-white">Impact Assessment</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Analyze the outcomes and impact of the vulnerabilities identified.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> Understand the significance and potential consequences of the security weaknesses.</p>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">07. Reporting</span>
+                        <h4 class="text-white">Documentation</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Document and communicate the findings and recommendations.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> Create a clear and actionable report for the organization's stakeholders.</p>
+                    </div>
+
+                    <!-- Step 8 -->
+                    <div class="method-list-item">
+                        <span class="step-badge">08. Cleanup</span>
+                        <h4 class="text-white">Restoration</h4>
+                        <p class="mb-1 text-light"><strong>Goal:</strong> Ensure that no unintentional damage is done during the testing.</p>
+                        <p class="text-muted small"><strong>Objective:</strong> Clean up and restore any changes made during the penetration testing.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-white text-center mb-5">Industries We Safeguard</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="industry-card">
+                        <i class="fas fa-heartbeat industry-icon"></i>
+                        <h5 class="text-white">Healthcare</h5>
+                        <p class="text-muted small">Safeguarding patient data and ensuring compliance with strict healthcare regulations.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="industry-card">
+                        <i class="fas fa-university industry-icon"></i>
+                        <h5 class="text-white">Finance</h5>
+                        <p class="text-muted small">Enhancing security of financial transactions and protecting sensitive banking data.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="industry-card">
+                        <i class="fas fa-landmark industry-icon"></i>
+                        <h5 class="text-white">Government</h5>
+                        <p class="text-muted small">Securing critical infrastructure and protecting sensitive government data for national security.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="industry-card">
+                        <i class="fas fa-shopping-cart industry-icon"></i>
+                        <h5 class="text-white">E-commerce</h5>
+                        <p class="text-muted small">The foundation of online business security, safeguarding customer data and maintaining trust.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Threat Intel Section -->
+    <section id="threat-intel" class="py-5" style="background-color: #0d121f;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h6 class="text-danger text-uppercase">Live Monitoring</h6>
+                <h2 class="text-white">Threat Intelligence Summary</h2>
+                <p class="text-muted">Significant threats actively monitored by our NativeSOC engines.</p>
+            </div>
+
+            <div class="accordion" id="threatAccordion">
+                
+                <!-- Threat 1 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <span class="badge badge-critical me-2">Critical</span> Citrix NetScaler ADC Code Injection (CVE-2023-3519)
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Affected:</strong> Citrix NetScaler ADC and Gateway</p>
+                                    <p><strong>Vulnerability:</strong> Improper input validation allows unauthenticated attackers to inject malicious code.</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Impact:</strong> Potential remote code execution leading to system compromise.</p>
+                                    <p class="text-info"><strong>Remediation:</strong> Update to the latest version as per Citrix's guidance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 2 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            <span class="badge badge-critical me-2">Critical</span> Citrix NetScaler Buffer Overflow (CVE-2023-4966)
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> Buffer overflow allows attackers to execute arbitrary code.</p>
+                            <p><strong>Impact:</strong> System crashes and potential remote code execution.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Update to the latest version.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 3 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            <span class="badge badge-critical me-2">Critical</span> Cisco IOS XE Web UI Privilege Escalation (CVE-2023-20198)
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> Unauthorized users can escalate privileges via the Web UI.</p>
+                            <p><strong>Impact:</strong> Complete system compromise.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Update to the latest version as per Cisco's guidance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 4 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            <span class="badge badge-critical me-2">Critical</span> Fortinet SSL-VPN Heap-Based Buffer Overflow (CVE-2023-27997)
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> Heap-based buffer overflow allows remote code execution.</p>
+                            <p><strong>Impact:</strong> Unauthorized access and control over the system.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Update to the latest version as per Fortinet's guidance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 5 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                            <span class="badge badge-critical me-2">Critical</span> Progress MOVEit Transfer SQL Injection (CVE-2023-34362)
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Versions:</strong> Before 2021.0.6 (13.0.6), 2021.1.4 (13.1.4), 2022.0.4 (14.0.4) etc.</p>
+                            <p><strong>Vulnerability:</strong> SQL injection allows unauthenticated access to the database.</p>
+                            <p><strong>Impact:</strong> Unauthorized data access, alteration, or deletion.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Apply patches provided by Progress.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 6 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+                            <span class="badge badge-high me-2">High</span> Atlassian Confluence Broken Access Control (CVE-2023-22515)
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> Broken access control allows unauthorized access to restricted information.</p>
+                            <p><strong>Impact:</strong> Information disclosure and potential data manipulation.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Update to the latest version.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 7 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSeven">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
+                            <span class="badge badge-critical me-2">Critical</span> Apache Log4j2 Remote Code Execution (Log4Shell) (CVE-2021-44228)
+                        </button>
+                    </h2>
+                    <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> Improper input validation allows remote code execution.</p>
+                            <p><strong>Impact:</strong> Complete system compromise.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Update to the latest version as per Apache's guidance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 8 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingEight">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight">
+                            <span class="badge badge-critical me-2">Critical</span> Barracuda Networks ESG Appliance (CVE-2023-2868)
+                        </button>
+                    </h2>
+                    <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> Improper input validation in the processing of email attachments, leading to RCE.</p>
+                            <p><strong>Impact:</strong> Attackers can gain unauthorized access and execute arbitrary code.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Barracuda has urged customers to replace affected appliances.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 9 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingNine">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine">
+                            <span class="badge badge-high me-2">High</span> Apple WebKit Memory Corruption (CVE-2023-32409)
+                        </button>
+                    </h2>
+                    <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Affected:</strong> iOS, iPadOS, macOS, Safari.</p>
+                            <p><strong>Vulnerability:</strong> A memory corruption issue in WebKit exploitable via web content.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Apply Apple's latest security updates.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat 10 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTen">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen">
+                            <span class="badge badge-high me-2">High</span> Microsoft Outlook NTLM Relay Attack (CVE-2023-23397)
+                        </button>
+                    </h2>
+                    <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#threatAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Vulnerability:</strong> NTLM relay attack via a crafted email, allowing attackers to steal NTLM hashes.</p>
+                            <p><strong>Impact:</strong> Potential privilege escalation and unauthorized access.</p>
+                            <p class="text-info"><strong>Remediation:</strong> Disable NTLM authentication where possible and apply MS patches.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <a class="d-flex align-items-center mb-3 text-decoration-none" href="#">
+                         <img src="NATIVEDEFENCE_Logo1.png" alt="Logo" style="height: 40px; margin-right:10px;" onerror="this.style.display='none'">
+                         <span style="font-weight:700; font-size:1.2rem; color:white;">NATIVEDEFENCE</span>
+                    </a>
+                    <p class="text-muted">Securing your future through rigorous testing and expert defense.</p>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5 class="text-white text-uppercase mb-3">Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nativesoc.html">NativeSOC</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                        <li><a href="vapt.html">VAPT</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <h5 class="text-white text-uppercase mb-3">Get a Quote</h5>
+                    <p class="text-muted small">Need a security audit? Contact our sales team.</p>
+                    <div class="contact-item"><i class="fas fa-envelope"></i> sales@nativedefence.com</div>
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Hunting Pro - Native Defence Academy</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #2d46b9;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #e0e0e0;
+            --accent-glow: rgba(0, 229, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+            z-index: 1030;
+        }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 1.5rem; letter-spacing: 1px; }
+        .nav-link { color: #b0b0b0 !important; font-weight: 500; margin-left: 15px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- Course Header --- */
+        .course-header {
+            background: linear-gradient(to right, rgba(10, 15, 28, 0.9), rgba(45, 70, 185, 0.3)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 160px 0 60px;
+            border-bottom: 1px solid #333;
+        }
+        .breadcrumb-custom a { color: var(--primary-color); text-decoration: none; }
+        .breadcrumb-custom span { color: #6b7280; margin: 0 10px; }
+        
+        .course-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .course-badge {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        /* --- Content Layout --- */
+        .section-title { color: white; font-weight: 700; margin-bottom: 20px; border-left: 4px solid var(--primary-color); padding-left: 15px; }
+        
+        /* --- Sticky Sidebar Card --- */
+        .enroll-card {
+            background: var(--card-bg);
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 30px;
+            position: sticky;
+            top: 100px; /* Stays visible when scrolling */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .price-tag { font-size: 2.5rem; color: white; font-weight: 700; }
+        .price-tag small { font-size: 1rem; color: #9ca3af; font-weight: 400; }
+        
+        .enroll-btn {
+            background: var(--primary-color);
+            color: #000;
+            font-weight: 700;
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .enroll-btn:hover {
+            background: white;
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .info-list li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #374151;
+            padding: 12px 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .info-list li:last-child { border-bottom: none; }
+
+        /* --- Accordion (Syllabus) Styling for Dark Mode --- */
+        .accordion-item {
+            background-color: transparent;
+            border: 1px solid #2d3748;
+            margin-bottom: 10px;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+        .accordion-button {
+            background-color: rgba(255,255,255,0.03);
+            color: white;
+            font-weight: 600;
+            box-shadow: none !important;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(45, 70, 185, 0.2);
+            color: var(--primary-color);
+        }
+        .accordion-button::after { filter: invert(1); }
+        .accordion-body {
+            background-color: #0f1524;
+            color: #ccc;
+            font-size: 0.9rem;
+            border-top: 1px solid #2d3748;
+        }
+
+        /* --- What you'll learn box --- */
+        .learn-box {
+            background: rgba(45, 70, 185, 0.1);
+            border: 1px solid var(--secondary-color);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        .check-list li {
+            margin-bottom: 10px;
+            list-style: none;
+        }
+        .check-list i { color: var(--primary-color); margin-right: 10px; }
+
+        /* --- Footer --- */
+        footer { background-color: #05080f; padding: 60px 0 20px; border-top: 3px solid var(--secondary-color); margin-top: 60px; }
+        footer a { color: #9ca3af; text-decoration: none; }
+        footer a:hover { color: var(--primary-color); }
+        .copyright { border-top: 1px solid #1f2937; margin-top: 40px; padding-top: 20px; text-align: center; color: #6b7280; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <!-- <img src="logo.png" alt="ND"> -->
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Course Header -->
+    <header class="course-header">
+        <div class="container">
+            <div class="breadcrumb-custom mb-4">
+                <a href="academy.html"><i class="fas fa-arrow-left me-2"></i>Back to Academy</a>
+                <span>/</span>
+                <span class="text-light">Threat Hunting Professional</span>
+            </div>
+            <span class="course-badge">ADVANCED</span>
+            <span class="course-badge">LIVE LABS</span>
+            <h1 class="course-title mt-3">Threat Hunting Professional</h1>
+            <p class="lead text-light" style="max-width: 700px;">
+                Move beyond automated alerts. Learn to proactively hunt, identify, and isolate advanced persistent threats (APTs) within your network using logic and forensics.
+            </p>
+            <div class="d-flex align-items-center mt-4 text-muted">
+                <div class="me-4"><i class="fas fa-star text-warning me-2"></i>4.9 (120 Reviews)</div>
+                <div><i class="fas fa-user-graduate me-2"></i>500+ Students Enrolled</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                
+                <!-- Left Column: Course Details -->
+                <div class="col-lg-8">
+                    
+                    <!-- About -->
+                    <div class="mb-5">
+                        <h3 class="section-title">Course Overview</h3>
+                        <p>
+                            The Native Defence Threat Hunting Professional course is designed for SOC analysts and security engineers who want to master the art of manual threat detection. While SIEMs and EDRs are powerful, they only catch what they know.
+                        </p>
+                        <p>
+                            In this course, you will learn how to formulate hypotheses, analyze network traffic patterns, and dig deep into endpoint memory forensics to find the "unknown unknowns." You will work on a live cyber range simulating a compromised enterprise network.
+                        </p>
+                    </div>
+
+                    <!-- What you will learn -->
+                    <div class="learn-box">
+                        <h4 class="text-white mb-3">What You Will Learn</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled check-list mb-0">
+                                    <li><i class="fas fa-check-circle"></i> Threat Hunting Methodologies (The loop)</li>
+                                    <li><i class="fas fa-check-circle"></i> IOC vs IOA Detection</li>
+                                    <li><i class="fas fa-check-circle"></i> Network Traffic Analysis (Wireshark/Zeek)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled check-list mb-0">
+                                    <li><i class="fas fa-check-circle"></i> Memory Forensics (Volatility)</li>
+                                    <li><i class="fas fa-check-circle"></i> Windows Event Log Deep Dives</li>
+                                    <li><i class="fas fa-check-circle"></i> Automating Hunts with Python</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Syllabus / Accordion -->
+                    <div class="mb-5">
+                        <h3 class="section-title">Curriculum</h3>
+                        <div class="accordion" id="syllabusAccordion">
+                            
+                            <!-- Module 1 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                        Module 1: Fundamentals of Threat Hunting
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#syllabusAccordion">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>The Hunter's Mindset vs The Responder's Mindset</li>
+                                            <li>Cyber Kill Chain & MITRE ATT&CK Framework</li>
+                                            <li>Setting up the Hunting Lab (ELK Stack)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Module 2 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                        Module 2: Endpoint Hunting (Windows/Linux)
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>Hunting for Persistence Mechanisms (Registry/Cron)</li>
+                                            <li>Process Injection & Hollowing Detection</li>
+                                            <li>Powershell De-obfuscation and Analysis</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Module 3 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                        Module 3: Network Hunting
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>Beaconing Analysis with Zeek</li>
+                                            <li>Detecting C2 over DNS and HTTPS</li>
+                                            <li>Lateral Movement detection (SMB/RDP)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Module 4 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                        Module 4: Capstone - The APT Emulation
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                                    <div class="accordion-body">
+                                        <p>Real-world scenario: A financial institution has been compromised. You are given access to the logs and memory dumps. Find the intruder, map their movement, and write the report.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Requirements -->
+                    <div class="mb-5">
+                        <h3 class="section-title">Prerequisites</h3>
+                        <p class="text-muted">To ensure you get the most out of this course, we recommend:</p>
+                        <ul class="text-muted">
+                            <li>Basic understanding of Networking (TCP/IP, DNS).</li>
+                            <li>Familiarity with Windows and Linux Command Line.</li>
+                            <li>Previous experience in IT or Junior SOC role is preferred.</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Sticky Sidebar -->
+                <div class="col-lg-4">
+                    <div class="enroll-card">
+                        <div class="text-center mb-4">
+                            <div class="price-tag">$499 <small>/ seat</small></div>
+                            <div class="text-success small fw-bold"><i class="fas fa-bolt me-1"></i> Enrollment Closes in 3 Days</div>
+                        </div>
+                        
+                        <ul class="list-unstyled info-list">
+                            <li>
+                                <span><i class="far fa-clock text-primary me-2"></i> Duration</span>
+                                <span class="text-white fw-bold">4 Weeks</span>
+                            </li>
+                            <li>
+                                <span><i class="fas fa-video text-primary me-2"></i> Format</span>
+                                <span class="text-white fw-bold">Weekend Live Classes</span>
+                            </li>
+                            <li>
+                                <span><i class="fas fa-flask text-primary me-2"></i> Labs</span>
+                                <span class="text-white fw-bold">50 Hours Access</span>
+                            </li>
+                            <li>
+                                <span><i class="fas fa-language text-primary me-2"></i> Language</span>
+                                <span class="text-white fw-bold">English</span>
+                            </li>
+                            <li>
+                                <span><i class="fas fa-certificate text-primary me-2"></i> Certification</span>
+                                <span class="text-white fw-bold">Included</span>
+                            </li>
+                        </ul>
+
+                        <button class="enroll-btn">Enroll Now</button>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted d-block mb-2">Need a corporate batch?</small>
+                            <a href="contact.html" class="text-primary text-decoration-none small">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-white text-uppercase mb-3">NativeDefence</h5>
+                    <p class="text-muted">Empowering the world through secure digital ecosystems and education.</p>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5 class="text-white text-uppercase mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <h5 class="text-white text-uppercase mb-3">Contact</h5>
+                    <p class="text-muted"><i class="fas fa-envelope me-2 text-primary"></i> academy@nativedefence.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NativeSOC Features - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #2d46b9;
+            --dark-bg: #0a0f1c;
+            --card-bg: #111827;
+            --text-light: #e0e0e0;
+            --accent-glow: rgba(0, 229, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid #1f2937;
+        }
+        .navbar-brand img { height: 40px; }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 1.2rem; letter-spacing: 1px; }
+        .nav-link { color: #fffafa !important; font-weight: 500; margin-left: 15px; transition: 0.3s; font-size: 0.9rem;}
+        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+
+        /* --- Header --- */
+        .page-header {
+            background: linear-gradient(rgba(10, 15, 28, 0.9), rgba(10, 15, 28, 0.95)), 
+                        url('https://images.unsplash.com/photo-1558494949-ef526b0042a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 160px 0 80px;
+            text-align: center;
+            border-bottom: 1px solid var(--primary-color);
+        }
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 10px;
+        }
+        .breadcrumb-custom {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* --- Feature Detail Cards --- */
+        section { padding: 80px 0; border-bottom: 1px solid #1f2937; }
+        
+        .feature-category-title {
+            color: white;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 20px;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .feature-card-lg {
+            background: var(--card-bg);
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 35px;
+            height: 100%;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card-lg:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon-circle {
+            width: 60px;
+            height: 60px;
+            background: rgba(45, 70, 185, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .feature-list li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #bbb;
+            display: flex;
+            align-items: start;
+        }
+        .feature-list li i {
+            color: var(--secondary-color);
+            margin-top: 5px;
+            margin-right: 10px;
+            font-size: 0.7rem;
+        }
+        .feature-card-lg:hover .feature-list li i {
+            color: var(--primary-color);
+        }
+
+        /* --- Dashboard Section --- */
+        .dashboard-mockup {
+            background: #1f2937;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #374151;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+        .mock-bar { height: 10px; background: #374151; margin-bottom: 10px; border-radius: 5px; width: 100%; }
+        .mock-graph { height: 150px; background: rgba(0, 229, 255, 0.05); border-bottom: 2px solid var(--primary-color); position: relative; }
+
+        /* --- Navigation Buttons --- */
+        .page-nav-btn {
+            border: 1px solid var(--primary-color);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .page-nav-btn:hover {
+            background: var(--primary-color);
+            color: black;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* --- Footer --- */
+        footer { background-color: #05080f; padding: 60px 0 20px; border-top: 3px solid var(--secondary-color); }
+        footer a { color: #f4f5f7; text-decoration: none; transition: 0.3s; }
+        footer a:hover { color: var(--primary-color); }
+        .copyright { border-top: 1px solid #1f2937; margin-top: 40px; padding-top: 20px; text-align: center; color: #fefeff; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="ND" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <span class="breadcrumb-custom">NativeSOC / Capabilities</span>
+            <h1 class="page-title">Platform Features</h1>
+            <p class="lead text-light mx-auto" style="max-width: 700px;">
+                A deep dive into the modules that make NativeSOC a comprehensive solution for modern threat landscapes.
+            </p>
+        </div>
+    </header>
+
+    <!-- Category 1: Core Detection -->
+    <section>
+        <div class="container">
+            <h3 class="feature-category-title">Core Detection & Monitoring</h3>
+            <div class="row g-4">
+                <!-- EDR -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-lg">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-laptop-medical"></i>
+                        </div>
+                        <h4 class="text-white">EDR (Endpoint Detection)</h4>
+                        <p class="text-muted small">Lightweight agents deployed on servers and workstations to monitor system-level activities in real-time.</p>
+                        <hr style="border-color: #374151;">
+                        <ul class="feature-list">
+                            <li><i class="fas fa-circle"></i> Registry modification monitoring</li>
+                            <li><i class="fas fa-circle"></i> Running process analysis</li>
+                            <li><i class="fas fa-circle"></i> Log collection (Syslog/EventLog)</li>
+                            <li><i class="fas fa-circle"></i> Malware signature scanning</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- NTA -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-lg">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h4 class="text-white">NTA (Network Traffic)</h4>
+                        <p class="text-muted small">Analysis of network flow data to detect malicious communication patterns and lateral movement.</p>
+                        <hr style="border-color: #374151;">
+                        <ul class="feature-list">
+                            <li><i class="fas fa-circle"></i> Inbound/Outbound traffic analysis</li>
+                            <li><i class="fas fa-circle"></i> Protocol anomaly detection</li>
+                            <li><i class="fas fa-circle"></i> Port scanning detection</li>
+                            <li><i class="fas fa-circle"></i> Botnet communication flagging</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Cloud Security -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-lg">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-cloud-shield"></i>
+                        </div>
+                        <h4 class="text-white">Cloud & Containers</h4>
+                        <p class="text-muted small">Unified security visibility across AWS, Azure, GCP, and containerized environments like Docker/Kubernetes.</p>
+                        <hr style="border-color: #374151;">
+                        <ul class="feature-list">
+                            <li><i class="fas fa-circle"></i> CloudTrail / CloudWatch integration</li>
+                            <li><i class="fas fa-circle"></i> Docker image scanning</li>
+                            <li><i class="fas fa-circle"></i> Kubernetes cluster monitoring</li>
+                            <li><i class="fas fa-circle"></i> Misconfiguration detection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category 2: Intelligence & Analytics -->
+    <section style="background-color: #0d121f;">
+        <div class="container">
+            <h3 class="feature-category-title">Intelligence & Analytics</h3>
+            <div class="row g-4">
+                <!-- UEBA -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-lg">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <h4 class="text-white">UEBA</h4>
+                        <p class="text-muted small">User & Entity Behavior Analytics. We build a baseline of "normal" and alert on the deviations.</p>
+                        <hr style="border-color: #374151;">
+                        <ul class="feature-list">
+                            <li><i class="fas fa-circle"></i> Insider threat detection</li>
+                            <li><i class="fas fa-circle"></i> Compromised account identification</li>
+                            <li><i class="fas fa-circle"></i> Login anomaly alerts (Time/Location)</li>
+                            <li><i class="fas fa-circle"></i> Privilege escalation tracking</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Threat Intel -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-lg">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h4 class="text-white">Global Threat Intel</h4>
+                        <p class="text-muted small">Real-time feeds from global sources to identify known malicious actors instantly.</p>
+                        <hr style="border-color: #374151;">
+                        <ul class="feature-list">
+                            <li><i class="fas fa-circle"></i> IP Reputation checking</li>
+                            <li><i class="fas fa-circle"></i> Malicious Domain blocking</li>
+                            <li><i class="fas fa-circle"></i> File Hash (IOC) matching</li>
+                            <li><i class="fas fa-circle"></i> 50,000+ Pre-built detection rules</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Vulnerability Detection -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-lg">
+                        <div class="feature-icon-circle">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                        <h4 class="text-white">Vulnerability Detector</h4>
+                        <p class="text-muted small">Continuous scanning of installed applications and OS versions against the CVE database.</p>
+                        <hr style="border-color: #374151;">
+                        <ul class="feature-list">
+                            <li><i class="fas fa-circle"></i> CVE Database integration</li>
+                            <li><i class="fas fa-circle"></i> Patch status reporting</li>
+                            <li><i class="fas fa-circle"></i> Hidden vulnerability discovery</li>
+                            <li><i class="fas fa-circle"></i> Configuration assessment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category 3: Governance -->
+    <section>
+        <div class="container">
+            <h3 class="feature-category-title">Governance & Integrity</h3>
+            <div class="row g-4">
+                <!-- FIM -->
+                <div class="col-lg-6">
+                    <div class="d-flex align-items-start p-3">
+                        <i class="fas fa-fingerprint text-primary fa-2x me-4"></i>
+                        <div>
+                            <h4 class="text-white">File Integrity Monitoring (FIM)</h4>
+                            <p class="text-muted">
+                                Monitors specified files and directories for changes. Crucial for compliance (PCI-DSS) and detecting ransomware or tampering. We track who changed a file, when, and what specifically was altered.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Compliance -->
+                <div class="col-lg-6">
+                    <div class="d-flex align-items-start p-3">
+                        <i class="fas fa-file-contract text-primary fa-2x me-4"></i>
+                        <div>
+                            <h4 class="text-white">Regulatory Compliance</h4>
+                            <p class="text-muted">
+                                Automated mapping of security events to specific regulatory requirements. Generate audit-ready reports for PCI DSS, GDPR, NIST 800-53, HIPAA, and TSC (SOC2).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Visualization Wrapper -->
+    <section class="py-5" style="background: linear-gradient(45deg, #05080f, #0d121f);">
+        <div class="container text-center">
+            <h2 class="text-white mb-5">Single Pane of Glass</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="dashboard-mockup text-start">
+                        <div class="row mb-4">
+                            <div class="col-3"><div class="mock-bar bg-primary w-75"></div></div>
+                            <div class="col-9 d-flex justify-content-end"><div class="mock-bar bg-secondary w-25"></div></div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <div class="p-3 border border-secondary rounded h-100">
+                                    <h6 class="text-muted mb-3">Threat Events over Time</h6>
+                                    <div class="mock-graph d-flex align-items-end px-2">
+                                        <!-- Fake bars -->
+                                        <div style="width:10%; height:30%; background:var(--primary-color); margin-right:5px; opacity:0.5;"></div>
+                                        <div style="width:10%; height:50%; background:var(--primary-color); margin-right:5px; opacity:0.7;"></div>
+                                        <div style="width:10%; height:80%; background:#ff4444; margin-right:5px;"></div>
+                                        <div style="width:10%; height:40%; background:var(--primary-color); margin-right:5px; opacity:0.6;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border border-secondary rounded mb-3">
+                                    <h6 class="text-muted">Top Agents</h6>
+                                    <div class="mock-bar bg-info w-100 mb-2"></div>
+                                    <div class="mock-bar bg-info w-75 mb-2"></div>
+                                    <div class="mock-bar bg-info w-50"></div>
+                                </div>
+                                <div class="p-3 border border-secondary rounded">
+                                    <h6 class="text-muted">MITRE ATT&CK</h6>
+                                    <div class="d-flex flex-wrap">
+                                        <span class="badge bg-danger m-1">T1059</span>
+                                        <span class="badge bg-warning m-1 text-dark">T1003</span>
+                                        <span class="badge bg-secondary m-1">T1078</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted mt-4">All features report into a centralized, customizable dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="text-center">
+        <div class="container">
+            <h3 class="text-white mb-4">Ready to see the value?</h3>
+            <a href="narchi.html" class="page-nav-btn"><i class="fas fa-arrow-left me-2"></i> Back to Architecture</a>
+            <a href="nwhy.html" class="page-nav-btn">Next: Why NativeSOC <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-white text-uppercase">NativeDefence</h5>
+                    <p class="text-muted small">Expert-driven Cyber Security Services.</p>
+                    <div class="mt-3 text-white">
+                         <i class="fas fa-envelope me-2 text-primary"></i> sales@nativedefence.com
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-white text-uppercase">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nativesoc.html">NativeSOC Platform</a></li>
+                        <li><a href="vapt.html">Vulnerability Assessment</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4">
+                    <h5 class="text-white text-uppercase">Locations</h5>
+                    <p class="text-muted small"><strong class="text-white">Ahmedabad:</strong> Ganesh Glory 11, Jagatpur Rd.</p>
+                    <p class="text-muted small"><strong class="text-white">Kolkata:</strong> 8 Beck Bagan Row.</p>
+                </div>
+            </div>
+            <div class="copyright small">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
